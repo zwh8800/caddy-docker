@@ -5,7 +5,10 @@ LABEL caddy_version="0.10.6" architecture="amd64"
 
 ARG plugins=http.cache,http.expires
 
-RUN apk add --no-cache openssh-client tar curl
+RUN apk update && apk add --no-cache openssh-client tar curl && \
+    apk add ca-certificates && apk add git && \
+    apk add tzdata && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone
 
 RUN curl --silent --show-error --fail --location \
       --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
