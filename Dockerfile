@@ -3,9 +3,9 @@ LABEL maintainer "Abiola Ibrahim <abiola89@gmail.com>"
 
 LABEL caddy_version="0.10.6" architecture="amd64"
 
-ARG plugins=http.git
+ARG plugins=http.cache,http.expires
 
-RUN apk add --no-cache openssh-client git tar curl
+RUN apk add --no-cache openssh-client tar curl
 
 RUN curl --silent --show-error --fail --location \
       --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
@@ -22,4 +22,4 @@ COPY Caddyfile /etc/Caddyfile
 COPY index.html /srv/index.html
 
 ENTRYPOINT ["/usr/bin/caddy"]
-CMD ["--conf", "/etc/Caddyfile", "--log", "stdout"]
+CMD ["--conf", "/etc/Caddyfile", "--log", "stdout", "--quic"]
